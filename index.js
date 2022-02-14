@@ -109,12 +109,12 @@ const renderCart = (items) => {
         cartItems.quantity -= 1
         cartItems.totalPrice = cartItems.basePrice * cartItems.quantity
       }
-   }
-   for (const cartItems of state.cart){
+      if(cartItems.totalPrice === 0){
+         state.cart.splice(state.cart.indexOf(cartItems), 1)
+         total.innerText = `£ ${cartItems.totalPrice.toFixed(2)}`
+      }
     if (counterValue < 1) {
       item.remove()
-      alert('Item Removed from cart.')
-      console.log(cartItems)
     }
      }
     renderCartTotal()
