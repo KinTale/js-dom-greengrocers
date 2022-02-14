@@ -58,7 +58,7 @@ const state = {
       id: "010-eggplant",
       name: "eggplant",
       price: 0.35,
-      type: 'Vegetable'
+      type: 'Fruit'
     }
   ],
   cart: []
@@ -72,12 +72,12 @@ const cartItemName = document.getElementsByTagName('p')
 const fruitButton = document.querySelector('.filter-fruit')
 const vegButton = document.querySelector('.filter-vegetable')
 
+//Gets each total price from Cart array then sums them together to get total price
 const renderCartTotal = () => {
   const totalPrice = state.cart.map((x) => x.totalPrice).reduce((a, c) => a + c)
   total.innerText = `£ ${totalPrice.toFixed(2)}`
-  console.log('price', totalPrice) //CONSOLE LOG
 }
-
+//Creates cart item from the object being passed.
 const renderCart = (items) => {
   const item = document.createElement('li')
 
@@ -98,6 +98,7 @@ const renderCart = (items) => {
   const addButton = document.createElement('button')
   addButton.classList.add('quantity-btn', 'add-btn', 'center')
 
+  //Reduces quantity, updates quantity & total in Cart array
   //EVENT
   removeButton.addEventListener('click', function (minusQuantity) {
     let counterValue = Number(quantityText.innerText)
@@ -108,15 +109,17 @@ const renderCart = (items) => {
         cartItems.quantity -= 1
         cartItems.totalPrice = cartItems.basePrice * cartItems.quantity
       }
-    }
+   }
+   for (const cartItems of state.cart){
     if (counterValue < 1) {
       item.remove()
       alert('Item Removed from cart.')
-
+      console.log(cartItems)
     }
-
+     }
     renderCartTotal()
   })
+  //Increasesquantity, updates quantity & total in Cart array
   //EVENT
   addButton.addEventListener('click', function (addQuantity) {
     let counterValue = Number(quantityText.innerText)
@@ -134,14 +137,13 @@ const renderCart = (items) => {
   itemCart.append(item)
   item.append(img, itemName, removeButton, quantityText, addButton)
 }
-
+// Creates store catalogue of the object being passed
 const renderStoreCatalogue = (items) => {
 
   const itemList = document.createElement('li')
 
   const storeItemHolder = document.createElement('div')
   storeItemHolder.className = 'store--item-icon'
-
 
   const img = document.createElement('img')
   img.setAttribute('src', `assets/icons/${items.id}.svg`)
@@ -152,14 +154,15 @@ const renderStoreCatalogue = (items) => {
 
   itemList.append(storeItemHolder, cartButton)
 
-  //EVENT
+// Adds items to cart
+//EVENT
   cartButton.addEventListener('click', function (item) {
     for (const itemName of cartItemName)
       if (items.name === itemName.innerText) {
         alert('This item is already in cart')
         return
       }
-
+//crates new item object to calculate price and quantity in the state.cart once that item is added to cart
     const itemsToCart = {
       id: items.id,
       name: items.name,
@@ -168,24 +171,24 @@ const renderStoreCatalogue = (items) => {
       quantity: 1
     }
     state.cart.push(itemsToCart)
-    console.log(state.cart) //CONSOLE LOG
     renderCart(items)
     renderCartTotal()
   })
   return itemList
 }
-
+//loops through item object in STATE and passes it to renderStoreCatalogue(funtion)
 const loadData = (items) => {
+
+  //displays all item in store
   for (const items of state.items) {
     const itemList = renderStoreCatalogue(items)
     itemStore.append(itemList)
   }
 
+  //it filters items with type: Fruit and displays with renderStoreCatalogue(function)
+  //EVENT
   fruitButton.addEventListener('click', function () {
-    // for (const items of state.items){
     const filteredItem = state.items.filter((x) => x.type === 'Fruit')
-    console.log(filteredItem)
-    //itemStore.remove()
     const children = Array.from(itemStore.children)
     for (const child of children) {
         child.remove()
@@ -194,13 +197,12 @@ const loadData = (items) => {
     const itemList = renderStoreCatalogue(items)
     itemStore.append(itemList)
     }
-
   })
 
+  //it filters items with type: Vegetable and displays with renderStoreCatalogue(function)
+  //EVENT
   vegButton.addEventListener('click', function () {
     const filteredItem = state.items.filter((x) => x.type === 'Vegetable')
-    console.log(filteredItem)
-    //itemStore.remove()
     const children = Array.from(itemStore.children)
     for (const child of children) {
         child.remove()
@@ -209,14 +211,7 @@ const loadData = (items) => {
     const itemList = renderStoreCatalogue(items)
     itemStore.append(itemList)
     }
-
   })
-
-
-
-
-
-
 }
 
 loadData(state)

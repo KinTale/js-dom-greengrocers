@@ -22,7 +22,7 @@ h2 {
  }
 
  .filter-fruit,
- .filter-vegetable{
+ .filter-vegetable { 
    width: 9rem;
    font-size: medium;
    margin-bottom: 2rem;
