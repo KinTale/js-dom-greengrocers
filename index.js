@@ -3,52 +3,62 @@ const state = {
     {
       id: "001-beetroot",
       name: "beetroot",
-      price: 0.35
+      price: 0.35,
+      type: 'Vegetable'
     },
     {
       id: "002-carrot",
       name: "carrot",
-      price: 0.35
+      price: 0.35,
+      type: 'Vegetable'
     },
     {
       id: "003-apple",
       name: "apple",
-      price: 0.35
+      price: 0.35,
+      type: 'Fruit'
     },
     {
       id: "004-apricot",
       name: "apricot",
-      price: 0.35
+      price: 0.35,
+      type: 'Fruit'
     },
     {
       id: "005-avocado",
       name: "avocado",
-      price: 0.35
+      price: 0.35,
+      type: 'Fruit'
     },
     {
       id: "006-bananas",
       name: "bananas",
-      price: 0.35
+      price: 0.35,
+      type: 'Fruit'
     },
     {
       id: "007-bell-pepper",
       name: "bell pepper",
-      price: 0.35
+      price: 0.35,
+      type: 'Vegetable'
     },
     {
       id: "008-berry",
       name: "berry",
-      price: 0.35
+      price: 0.35,
+      type: 'Fruit'
     },
     {
       id: "009-blueberry",
       name: "blueberry",
-      price: 0.35
+      price: 0.35,
+      type: 'Fruit'
     },
     {
       id: "010-eggplant",
       name: "eggplant",
-      price: 0.35
+      price: 0.35,
+      type: 'Vegetable'
     }
   ],
   cart: []
@@ -59,8 +69,8 @@ const itemCart = document.querySelector('.cart--item-list')
 const totalQuantity = document.getElementsByClassName('.quantity-text').innerText
 const total = document.querySelector('.total-number')
 const cartItemName = document.getElementsByTagName('p')
-const cartsum = document.getElementsByTagName('li')
-
+const fruitButton = document.querySelector('.filter-fruit')
+const vegButton = document.querySelector('.filter-vegetable')
 
 const renderCartTotal = () => {
   const totalPrice = state.cart.map((x) => x.totalPrice).reduce((a, c) => a + c)
@@ -102,7 +112,9 @@ const renderCart = (items) => {
     if (counterValue < 1) {
       item.remove()
       alert('Item Removed from cart.')
+
     }
+
     renderCartTotal()
   })
   //EVENT
@@ -123,22 +135,22 @@ const renderCart = (items) => {
   item.append(img, itemName, removeButton, quantityText, addButton)
 }
 
-
-
 const renderStoreCatalogue = (items) => {
+
   const itemList = document.createElement('li')
 
   const storeItemHolder = document.createElement('div')
   storeItemHolder.className = 'store--item-icon'
 
+
   const img = document.createElement('img')
   img.setAttribute('src', `assets/icons/${items.id}.svg`)
+  storeItemHolder.append(img)
 
   const cartButton = document.createElement('button')
   cartButton.innerText = 'Add to cart'
 
-  itemList.append(storeItemHolder, img, cartButton)
-
+  itemList.append(storeItemHolder, cartButton)
 
   //EVENT
   cartButton.addEventListener('click', function (item) {
@@ -168,6 +180,43 @@ const loadData = (items) => {
     const itemList = renderStoreCatalogue(items)
     itemStore.append(itemList)
   }
+
+  fruitButton.addEventListener('click', function () {
+    // for (const items of state.items){
+    const filteredItem = state.items.filter((x) => x.type === 'Fruit')
+    console.log(filteredItem)
+    //itemStore.remove()
+    const children = Array.from(itemStore.children)
+    for (const child of children) {
+        child.remove()
+    }
+    for (const items of filteredItem){
+    const itemList = renderStoreCatalogue(items)
+    itemStore.append(itemList)
+    }
+
+  })
+
+  vegButton.addEventListener('click', function () {
+    const filteredItem = state.items.filter((x) => x.type === 'Vegetable')
+    console.log(filteredItem)
+    //itemStore.remove()
+    const children = Array.from(itemStore.children)
+    for (const child of children) {
+        child.remove()
+    }
+    for (const items of filteredItem){
+    const itemList = renderStoreCatalogue(items)
+    itemStore.append(itemList)
+    }
+
+  })
+
+
+
+
+
+
 }
 
 loadData(state)
