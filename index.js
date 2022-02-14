@@ -66,7 +66,6 @@ const state = {
 
 const itemStore = document.querySelector('.store--item-list')
 const itemCart = document.querySelector('.cart--item-list')
-const totalQuantity = document.getElementsByClassName('.quantity-text').innerText
 const total = document.querySelector('.total-number')
 const cartItemName = document.getElementsByTagName('p')
 const fruitButton = document.querySelector('.filter-fruit')
@@ -77,6 +76,7 @@ const renderCartTotal = () => {
   const totalPrice = state.cart.map((x) => x.totalPrice).reduce((a, c) => a + c)
   total.innerText = `£ ${totalPrice.toFixed(2)}`
 }
+
 //Creates cart item from the object being passed.
 const renderCart = (items) => {
   const item = document.createElement('li')
@@ -109,16 +109,15 @@ const renderCart = (items) => {
         cartItems.quantity -= 1
         cartItems.totalPrice = cartItems.basePrice * cartItems.quantity
       }
-      if(cartItems.totalPrice === 0){
-         state.cart.splice(state.cart.indexOf(cartItems), 1)
-         total.innerText = `£ ${cartItems.totalPrice.toFixed(2)}`
+      if (cartItems.totalPrice === 0) {
+        state.cart.splice(state.cart.indexOf(cartItems), 1)
+        total.innerText = `£ ${cartItems.totalPrice.toFixed(2)}`
       }
-    if (counterValue < 1) {
-      item.remove()
+      if (counterValue < 1) { item.remove() }
     }
-     }
     renderCartTotal()
   })
+
   //Increasesquantity, updates quantity & total in Cart array
   //EVENT
   addButton.addEventListener('click', function (addQuantity) {
@@ -154,15 +153,15 @@ const renderStoreCatalogue = (items) => {
 
   itemList.append(storeItemHolder, cartButton)
 
-// Adds items to cart
-//EVENT
+  // Adds items to cart
+  //EVENT
   cartButton.addEventListener('click', function (item) {
     for (const itemName of cartItemName)
       if (items.name === itemName.innerText) {
         alert('This item is already in cart')
         return
       }
-//crates new item object to calculate price and quantity in the state.cart once that item is added to cart
+  //New item object to calculate price and quantity to be pushed in the state.cart once that item is added to cart
     const itemsToCart = {
       id: items.id,
       name: items.name,
@@ -176,9 +175,9 @@ const renderStoreCatalogue = (items) => {
   })
   return itemList
 }
+
 //loops through item object in STATE and passes it to renderStoreCatalogue(funtion)
 const loadData = (items) => {
-
   //displays all item in store
   for (const items of state.items) {
     const itemList = renderStoreCatalogue(items)
@@ -191,11 +190,11 @@ const loadData = (items) => {
     const filteredItem = state.items.filter((x) => x.type === 'Fruit')
     const children = Array.from(itemStore.children)
     for (const child of children) {
-        child.remove()
+      child.remove()
     }
-    for (const items of filteredItem){
-    const itemList = renderStoreCatalogue(items)
-    itemStore.append(itemList)
+    for (const items of filteredItem) {
+      const itemList = renderStoreCatalogue(items)
+      itemStore.append(itemList)
     }
   })
 
@@ -205,11 +204,11 @@ const loadData = (items) => {
     const filteredItem = state.items.filter((x) => x.type === 'Vegetable')
     const children = Array.from(itemStore.children)
     for (const child of children) {
-        child.remove()
+      child.remove()
     }
-    for (const items of filteredItem){
-    const itemList = renderStoreCatalogue(items)
-    itemStore.append(itemList)
+    for (const items of filteredItem) {
+      const itemList = renderStoreCatalogue(items)
+      itemStore.append(itemList)
     }
   })
 }
