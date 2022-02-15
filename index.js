@@ -70,6 +70,7 @@ const total = document.querySelector('.total-number')
 const cartItemName = document.getElementsByTagName('p')
 const fruitButton = document.querySelector('.filter-fruit')
 const vegButton = document.querySelector('.filter-vegetable')
+const headerButton = document.querySelector('#store')
 
 //Gets each total price from Cart array then sums them together to get total price
 const renderCartTotal = () => {
@@ -178,6 +179,7 @@ const renderStoreCatalogue = (items) => {
 
 //loops through item object in STATE and passes it to renderStoreCatalogue(funtion)
 const loadData = (items) => {
+  
   //displays all item in store
   for (const items of state.items) {
     const itemList = renderStoreCatalogue(items)
@@ -188,10 +190,8 @@ const loadData = (items) => {
   //EVENT
   fruitButton.addEventListener('click', function () {
     const filteredItem = state.items.filter((x) => x.type === 'Fruit')
-    const children = Array.from(itemStore.children)
-    for (const child of children) {
-      child.remove()
-    }
+    itemStore.innerHTML = ''
+  
     for (const items of filteredItem) {
       const itemList = renderStoreCatalogue(items)
       itemStore.append(itemList)
@@ -202,10 +202,8 @@ const loadData = (items) => {
   //EVENT
   vegButton.addEventListener('click', function () {
     const filteredItem = state.items.filter((x) => x.type === 'Vegetable')
-    const children = Array.from(itemStore.children)
-    for (const child of children) {
-      child.remove()
-    }
+    itemStore.innerHTML = ''
+  
     for (const items of filteredItem) {
       const itemList = renderStoreCatalogue(items)
       itemStore.append(itemList)
